@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PDF Analyzer</title>
+  <style>
+    /*layout */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #e8ebee;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: #ffffff;
+      padding: 2em;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
+      position: relative;
+    }
+
+    /*headings */
+    h1, h2, h3 {
+      color: #302e2e;
+      margin-top: 0;
+    }
+
+    /*forms and inputs */
+    form input[type="file"],
+    form input[type="text"],
+    form button {
+      display: block;
+      width: 100%;
+      margin: 1em 0;
+      padding: 0.75em;
+      font-size: 1em;
+      border: 1px solid #c4bfbf;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    form button {
+      background: #38833b;
+      color: #ffffff;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    form button:hover {
+      background: #3d8f41;
+    }
+
+    /*error message */
+    .error {
+      color: rgb(143, 0, 0);
+      margin-bottom: 1em;
+      font-weight: bold;
+    }
+
+    /*sources list */
+    ul {
+      list-style: disc inside;
+      padding-left: 1em;
+    }
+
+    /*spinner */
+    .spinner-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+    }
+    .spinner {
+      border: 8px solid #ffffff;
+      border-top: 8px solid #4cad50;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>PDF Analyzer</h1>
+
+    {% if error %}
+      <div class="error">{{ error }}</div>
+    {% endif %}
+
+    {% if upload_id %}
+      <h2>Current PDF: {{ pdf_name }}</h2>
+
+      <!--clear and start over-->
+      <form method="post">
+        <button name="clear" type="submit">Clear &amp; Upload New PDF</button>
+      </form>
+
+      <!--ask follow up questions -->
+      <form method="post">
+        <input type="text" name="question" placeholder="Ask a question about this PDF..." required>
+        <button type="submit">Ask</button>
+      </form>
+
+    {% else %}
+      <!--first step -->
+      <form method="post" enctype="multipart/form-data">
+        <input type="file" name="pdf" accept=".pdf" required>
+        <button type="submit">Upload &amp; Index</button>
+      </form>
+    {% endif %}
+
+    {% if answer %}
+      <h2>Answer</h2>
+      <p>{{ answer }}</p>
+
+      {% if display_sources %}
+        <h3>Sources</h3>
+        <ul>
+          {% for ds in display_sources %}
+            <li>{{ ds }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endif %}
+
+    <!--spinner -->
+    <div class="spinner-overlay" id="spinner">
+      <div class="spinner"></div>
+    </div>
+  </div>
+
+  <script>
+    //show spinner
+    function showSpinner() {
+      document.getElementById('spinner').style.display = 'flex';
+    }
+    document.querySelectorAll('form').forEach(function(form) {
+      form.addEventListener('submit', showSpinner);
+    });
+  </script>
+</body>
+</html>

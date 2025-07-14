@@ -1,0 +1,17 @@
+#python
+__pycache__/
+*.pyc
+*.py[cod]
+*.egg-info/
+
+#virtualenv
+venv/
+.env
+
+#local data and indexes
+data/
+chroma/
+*.bin
+*.pyd
+
+
