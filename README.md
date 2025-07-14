@@ -1,4 +1,6 @@
-![CI](https://github.com/<YOUR_GITHUB_USERNAME>/LLM-PDF-Analyzer/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/<DavidShableski>/LLM-PDF-Analyzer/actions/workflows/ci.yml/badge.svg)
+
+https://www.youtube.com/watch?v=hykruzhymPc
 
 # LLM-PDF-Analyzer
 
