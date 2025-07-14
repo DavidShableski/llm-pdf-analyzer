@@ -1,4 +1,4 @@
-# LLM-PDF-Analyzer
+# llm-pdf-analyzer
 
 **LLM-PDF-Analyzer** is a self-hosted web app that lets you upload any PDF, automatically chunk and index its contents in a ChromaDB vector store, then ask natural-language questions against it — all locally, so your documents never leave your machine.
 
